@@ -15,7 +15,7 @@ import org.apache.curator.retry.ExponentialBackoffRetry;
 public class Lock2 {
 
 	/** zookeeper地址 */
-	static final String CONNECT_ADDR = "192.168.1.171:2181,192.168.1.172:2181,192.168.1.173:2181";
+	static final String CONNECT_ADDR = "192.168.252.128:2181,192.168.252.129:2181,192.168.252.130:2181";
 	/** session超时时间 */
 	static final int SESSION_OUTTIME = 5000;//ms 
 	
@@ -44,7 +44,7 @@ public class Lock2 {
 		cf.start();
 		
 		//4 分布式锁
-		final InterProcessMutex lock = new InterProcessMutex(cf, "/super");
+		final InterProcessMutex lock = new InterProcessMutex(cf, "/super1");
 		//final ReentrantLock reentrantLock = new ReentrantLock();
 		final CountDownLatch countdown = new CountDownLatch(1);
 		
@@ -54,8 +54,10 @@ public class Lock2 {
 				public void run() {
 					try {
 						countdown.await();
+						System.out.println("---------");
 						//加锁
 						lock.acquire();
+						System.out.println("++++++++");
 						//reentrantLock.lock();
 						//-------------业务处理开始
 						//genarNo();
